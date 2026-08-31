@@ -96,6 +96,48 @@ p {
   letter-spacing: 0.04em;
 }
 
+/* --- MindShift Logo Header --- */
+.app-logo-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.app-logo-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1.5px solid var(--line);
+  box-shadow: 0 2px 8px rgba(41, 51, 35, 0.08);
+  flex-shrink: 0;
+}
+
+.app-logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.app-name {
+  font-family: 'Spectral', serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.app-tagline {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--moss);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+
 input[type=text], textarea {
   width: 100%;
   padding: 13px 15px;

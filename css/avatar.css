@@ -1,0 +1,318 @@
+/* ==========================================================================
+   ANIMATED PERSON AVATAR STYLING & KEYFRAMES
+   ========================================================================== */
+
+/* --- Avatar Container & Stage --- */
+.avatar-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 0 18px;
+  position: relative;
+}
+
+.avatar-halo {
+  position: absolute;
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(147, 173, 132, 0.35) 0%, rgba(233, 237, 226, 0.1) 70%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+  transition: transform 4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease;
+}
+
+.avatar-container {
+  width: 175px;
+  height: 175px;
+  border-radius: 50%;
+  position: relative;
+  background: linear-gradient(145deg, #F0F4EC, #DEE5D6);
+  border: 3px solid rgba(92, 122, 78, 0.25);
+  box-shadow: 0 8px 24px rgba(41, 51, 35, 0.12), inset 0 2px 6px rgba(255, 255, 255, 0.7);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  transition: transform 3.8s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s ease;
+}
+
+.avatar-container.small {
+  width: 58px;
+  height: 58px;
+  border-width: 2px;
+}
+
+/* --- Breathing Dynamics on Avatar Container --- */
+.avatar-stage.inhale .avatar-container {
+  transform: scale(1.08) translateY(-3px);
+  border-color: var(--moss);
+}
+.avatar-stage.inhale .avatar-halo {
+  transform: scale(1.22);
+  opacity: 0.85;
+}
+
+.avatar-stage.hold .avatar-container {
+  transform: scale(1.08) translateY(-3px);
+  border-color: var(--ochre);
+}
+.avatar-stage.hold .avatar-halo {
+  transform: scale(1.22);
+  opacity: 0.85;
+}
+
+.avatar-stage.exhale .avatar-container {
+  transform: scale(0.96) translateY(2px);
+  border-color: rgba(92, 122, 78, 0.3);
+}
+.avatar-stage.exhale .avatar-halo {
+  transform: scale(0.95);
+  opacity: 0.35;
+}
+
+/* --- SVG Character Elements & Kinetic Animations --- */
+.avatar-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Head gentle bobbing / breathing */
+.avatar-head {
+  transform-origin: 50% 68%;
+  transition: transform 3.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.avatar-stage.inhale .avatar-head {
+  transform: translateY(-2px) rotate(0.5deg);
+}
+
+.avatar-stage.exhale .avatar-head {
+  transform: translateY(2px) rotate(-0.5deg);
+}
+
+/* Chest breathing motion */
+.avatar-chest {
+  transform-origin: 50% 88%;
+  transition: transform 3.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.avatar-stage.inhale .avatar-chest {
+  transform: scale(1.06, 1.05) translateY(-2px);
+}
+
+.avatar-stage.exhale .avatar-chest {
+  transform: scale(0.97, 0.96) translateY(1px);
+}
+
+/* Eyes: Natural blinking animation */
+.avatar-eye {
+  transform-origin: center;
+  animation: naturalBlink 4.6s infinite;
+}
+
+.avatar-eye.closed {
+  animation: none !important;
+  opacity: 0;
+}
+
+.avatar-eye-closed-line {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.avatar-stage.breathing-mode .avatar-eye {
+  animation: none;
+  opacity: 0;
+}
+
+.avatar-stage.breathing-mode .avatar-eye-closed-line {
+  opacity: 1;
+}
+
+@keyframes naturalBlink {
+  0%, 94%, 98%, 100% {
+    transform: scaleY(1);
+  }
+  96% {
+    transform: scaleY(0.08);
+  }
+}
+
+/* Mouth: Speaking state & animation */
+.avatar-mouth-closed {
+  transition: opacity 0.15s ease;
+}
+
+.avatar-mouth-open {
+  transform-origin: center;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.speaking .avatar-mouth-closed {
+  opacity: 0;
+}
+
+.speaking .avatar-mouth-open {
+  opacity: 1;
+  animation: talkMouth 0.32s infinite alternate ease-in-out;
+}
+
+@keyframes talkMouth {
+  0% {
+    transform: scaleY(0.4) scaleX(0.9);
+  }
+  50% {
+    transform: scaleY(1.15) scaleX(1.05);
+  }
+  100% {
+    transform: scaleY(0.7) scaleX(0.95);
+  }
+}
+
+/* --- Avatar Selector in Welcome Screen --- */
+.avatar-picker-title {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.avatar-selector-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.avatar-choice-btn {
+  flex: 1;
+  background: #fff;
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease, transform 0.12s ease;
+}
+
+.avatar-choice-btn:hover {
+  border-color: var(--moss-light);
+  transform: translateY(-1px);
+}
+
+.avatar-choice-btn.selected {
+  border-color: var(--moss);
+  background: #EEF3E8;
+  box-shadow: 0 2px 8px rgba(92, 122, 78, 0.15);
+}
+
+.avatar-choice-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.avatar-choice-role {
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+}
+
+/* --- Animated Person Stretch Illustrations --- */
+.stretch-avatar-stage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 6px 0 16px;
+  min-height: 150px;
+}
+
+.stretch-figure-box {
+  width: 160px;
+  height: 150px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  box-shadow: 0 2px 10px rgba(41, 51, 35, 0.05);
+}
+
+.stretch-figure-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Stretch animation keyframes for figures */
+@keyframes neckTiltMotion {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  30%, 70% {
+    transform: rotate(18deg);
+  }
+}
+
+@keyframes shoulderRollMotion {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(0, -4px) rotate(2deg);
+  }
+  50% {
+    transform: translate(-3px, -2px) rotate(0deg);
+  }
+  75% {
+    transform: translate(-2px, 3px) rotate(-2deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+
+@keyframes twistTorsoMotion {
+  0%, 100% {
+    transform: scaleX(1) translateX(0);
+  }
+  40%, 70% {
+    transform: scaleX(0.85) translateX(5px) rotate(4deg);
+  }
+}
+
+@keyframes reachArmsMotion {
+  0%, 100% {
+    transform: translateY(0) scaleY(1);
+  }
+  40%, 80% {
+    transform: translateY(-8px) scaleY(1.05);
+  }
+}
+
+.anim-neck-tilt {
+  transform-origin: 50% 65%;
+  animation: neckTiltMotion 4s ease-in-out infinite;
+}
+
+.anim-shoulder-roll {
+  transform-origin: 50% 50%;
+  animation: shoulderRollMotion 3s linear infinite;
+}
+
+.anim-torso-twist {
+  transform-origin: 50% 80%;
+  animation: twistTorsoMotion 4s ease-in-out infinite;
+}
+
+.anim-reach-arms {
+  transform-origin: 50% 100%;
+  animation: reachArmsMotion 3.5s ease-in-out infinite;
+}

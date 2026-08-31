@@ -1,0 +1,486 @@
+/* ==========================================================================
+   REALISTIC 2D ANIMATED AVATAR & COACH STYLES
+   ========================================================================== */
+
+/* --- Avatar Stage Container --- */
+.avatar-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 0 14px;
+  position: relative;
+}
+
+.avatar-halo {
+  position: absolute;
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(92, 122, 78, 0.28) 0%, rgba(233, 237, 226, 0.08) 68%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+  transition: transform 3.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease;
+}
+
+.avatar-container {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  position: relative;
+  background: linear-gradient(145deg, #F9FAF6 0%, #E8EDE1 100%);
+  border: 3px solid rgba(92, 122, 78, 0.35);
+  box-shadow: 0 10px 28px rgba(41, 51, 35, 0.12), inset 0 2px 8px rgba(255, 255, 255, 0.9);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  transition: transform 3.8s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.avatar-container.small {
+  width: 58px;
+  height: 58px;
+  border-width: 2px;
+  box-shadow: 0 3px 10px rgba(41, 51, 35, 0.08);
+}
+
+.avatar-container.mini {
+  width: 36px;
+  height: 36px;
+  border-width: 1.5px;
+  box-shadow: 0 2px 6px rgba(41, 51, 35, 0.06);
+}
+
+/* --- Breathing Dynamics on Avatar Container --- */
+.avatar-stage.inhale .avatar-container {
+  transform: scale(1.06) translateY(-2px);
+  border-color: var(--moss);
+  box-shadow: 0 14px 34px rgba(92, 122, 78, 0.25);
+}
+.avatar-stage.inhale .avatar-halo {
+  transform: scale(1.28);
+  opacity: 0.95;
+}
+
+.avatar-stage.hold .avatar-container {
+  transform: scale(1.06) translateY(-2px);
+  border-color: var(--ochre);
+  box-shadow: 0 14px 34px rgba(169, 112, 46, 0.22);
+}
+.avatar-stage.hold .avatar-halo {
+  transform: scale(1.28);
+  opacity: 0.9;
+}
+
+.avatar-stage.exhale .avatar-container {
+  transform: scale(0.96) translateY(1px);
+  border-color: rgba(92, 122, 78, 0.25);
+  box-shadow: 0 6px 18px rgba(41, 51, 35, 0.08);
+}
+.avatar-stage.exhale .avatar-halo {
+  transform: scale(0.95);
+  opacity: 0.35;
+}
+
+/* --- Realistic 2D SVG Character Components --- */
+.avatar-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  display: block;
+}
+
+/* Head breathing motion */
+.avatar-head {
+  transform-origin: 50% 68%;
+  transition: transform 3.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.avatar-stage.inhale .avatar-head {
+  transform: translateY(-2.5px) rotate(0.4deg);
+}
+
+.avatar-stage.exhale .avatar-head {
+  transform: translateY(2px) rotate(-0.4deg);
+}
+
+/* Realistic Chest Breathing Expansion */
+.avatar-chest {
+  transform-origin: 50% 90%;
+  transition: transform 3.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.avatar-stage.inhale .avatar-chest {
+  transform: scale(1.07, 1.06) translateY(-2px);
+}
+
+.avatar-stage.exhale .avatar-chest {
+  transform: scale(0.97, 0.96) translateY(1px);
+}
+
+/* --- Realistic Eye Blinking & Meditative States --- */
+.avatar-eye-open {
+  transform-origin: 50% 50%;
+  animation: realisticBlink 4.2s infinite ease-in-out;
+  transition: opacity 0.25s ease;
+}
+
+.avatar-eye-closed {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.avatar-stage.breathing-mode .avatar-eye-open {
+  animation: none;
+  opacity: 0;
+}
+
+.avatar-stage.breathing-mode .avatar-eye-closed {
+  opacity: 1;
+}
+
+@keyframes realisticBlink {
+  0%, 92%, 96%, 100% {
+    transform: scaleY(1);
+  }
+  94% {
+    transform: scaleY(0.06);
+  }
+}
+
+/* --- Realistic Speech-Synced Mouth Articulation --- */
+.avatar-mouth-idle {
+  transition: opacity 0.15s ease;
+}
+
+.avatar-mouth-speaking {
+  opacity: 0;
+  transform-origin: 50% 60%;
+  transition: opacity 0.15s ease;
+}
+
+.speaking .avatar-mouth-idle {
+  opacity: 0;
+}
+
+.speaking .avatar-mouth-speaking {
+  opacity: 1;
+  animation: realisticSpeechMouth 0.28s infinite alternate cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+
+@keyframes realisticSpeechMouth {
+  0% {
+    transform: scaleY(0.45) scaleX(0.92);
+  }
+  50% {
+    transform: scaleY(1.2) scaleX(1.04);
+  }
+  100% {
+    transform: scaleY(0.75) scaleX(0.96);
+  }
+}
+
+/* --- Coach Selection Grid --- */
+.coach-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.coach-card {
+  background: #fff;
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  padding: 12px 6px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.coach-card:hover {
+  border-color: var(--moss-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(41, 51, 35, 0.08);
+}
+
+.coach-card.selected {
+  border-color: var(--moss);
+  background: #EEF3E8;
+  box-shadow: 0 4px 14px rgba(92, 122, 78, 0.2);
+}
+
+.coach-badge {
+  font-size: 0.64rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 2px 6px;
+  border-radius: 8px;
+  background: rgba(92, 122, 78, 0.12);
+  color: var(--moss);
+}
+
+.coach-name {
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.coach-role-desc {
+  font-size: 0.68rem;
+  color: var(--ink-soft);
+  text-align: center;
+  line-height: 1.25;
+  padding: 0 2px;
+}
+
+.coach-detail-preview {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 0.84rem;
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+  line-height: 1.45;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 1px 3px rgba(41, 51, 35, 0.04);
+}
+
+.coach-detail-preview .bullet {
+  color: var(--moss);
+  font-size: 1.2rem;
+  line-height: 0;
+}
+
+/* --- Stretch Exercise Box & Lively Kinetic Animations --- */
+.stretch-illustration-box {
+  width: 100%;
+  height: 175px;
+  background: #FFFFFF;
+  border: 1.5px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+  margin: 6px 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  box-shadow: 0 4px 16px rgba(41, 51, 35, 0.06);
+}
+
+.stretch-focus-badge {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--moss);
+  background: rgba(233, 237, 226, 0.92);
+  padding: 3px 9px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  z-index: 2;
+}
+
+.stretch-coach-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stretch-figure-svg {
+  width: 100%;
+  height: 100%;
+  max-height: 160px;
+  display: block;
+}
+
+/* ==========================================================================
+   DYNAMIC 2D EXERCISE KINETICS & MOTION KEYFRAMES
+   ========================================================================== */
+
+/* 1. Neck Release Tilt (Fluid Side-to-Side + Pause) */
+@keyframes neckReleaseMotion {
+  0%, 100% {
+    transform: rotate(0deg) translateY(0);
+  }
+  20%, 45% {
+    transform: rotate(22deg) translateY(1px);
+  }
+  55% {
+    transform: rotate(0deg) translateY(0);
+  }
+  75%, 95% {
+    transform: rotate(-22deg) translateY(1px);
+  }
+}
+.anim-neck-tilt {
+  transform-origin: 50% 68%;
+  animation: neckReleaseMotion 4.8s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+}
+
+/* 2. Shoulder Rolling Kinetic Arcs */
+@keyframes shoulderRollMotion {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(0, -6px) rotate(3deg);
+  }
+  50% {
+    transform: translate(-4px, -3px) rotate(0deg);
+  }
+  75% {
+    transform: translate(-2px, 4px) rotate(-3deg);
+  }
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+}
+.anim-shoulder-roll {
+  transform-origin: 50% 50%;
+  animation: shoulderRollMotion 3.0s linear infinite;
+}
+
+/* 3. Seated Spine Twist (Left & Right Full Rotation) */
+@keyframes torsoTwistMotion {
+  0%, 100% {
+    transform: scaleX(1) translateX(0);
+  }
+  25%, 45% {
+    transform: scaleX(0.82) translateX(8px) rotate(5deg);
+  }
+  55% {
+    transform: scaleX(1) translateX(0);
+  }
+  75%, 95% {
+    transform: scaleX(0.82) translateX(-8px) rotate(-5deg);
+  }
+}
+.anim-torso-twist {
+  transform-origin: 50% 80%;
+  animation: torsoTwistMotion 5.0s ease-in-out infinite;
+}
+
+/* 4. Overhead Sky Reach (Lengthening Spine & Elevation) */
+@keyframes reachArmsMotion {
+  0%, 100% {
+    transform: translateY(0) scaleY(1);
+  }
+  30%, 75% {
+    transform: translateY(-10px) scaleY(1.08);
+  }
+}
+.anim-reach-arms {
+  transform-origin: 50% 100%;
+  animation: reachArmsMotion 3.6s ease-in-out infinite;
+}
+
+/* 5. Chin Tuck (Retraction & Alignment) */
+@keyframes chinTuckMotion {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  35%, 70% {
+    transform: translateX(-9px);
+  }
+}
+.anim-chin-tuck {
+  transform-origin: 50% 50%;
+  animation: chinTuckMotion 3.2s ease-in-out infinite;
+}
+
+/* 6. Carpal & Wrist Flexor Stretch */
+@keyframes wristFlexMotion {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  30%, 70% {
+    transform: rotate(26deg);
+  }
+}
+.anim-wrist-flex {
+  transform-origin: 75% 60%;
+  animation: wristFlexMotion 3.2s ease-in-out infinite;
+}
+
+/* 7. Trapezius / Rhomboid Squeeze */
+@keyframes trapSqueezeMotion {
+  0%, 100% {
+    transform: scaleX(1);
+  }
+  30%, 75% {
+    transform: scaleX(0.86);
+  }
+}
+.anim-trap-squeeze {
+  transform-origin: 50% 50%;
+  animation: trapSqueezeMotion 3.4s ease-in-out infinite;
+}
+
+/* 8. Side Body Crescent Lean */
+@keyframes crescentLeanMotion {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25%, 45% {
+    transform: rotate(14deg) translateX(5px);
+  }
+  55% {
+    transform: rotate(0deg);
+  }
+  75%, 95% {
+    transform: rotate(-14deg) translateX(-5px);
+  }
+}
+.anim-crescent-lean {
+  transform-origin: 50% 100%;
+  animation: crescentLeanMotion 5.0s ease-in-out infinite;
+}
+
+/* 9. Eye Horizon / Temple Circles */
+@keyframes templeCircleMotion {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(2px, -2px);
+  }
+  50% {
+    transform: translate(0, -4px);
+  }
+  75% {
+    transform: translate(-2px, -2px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+.anim-temple-circle {
+  animation: templeCircleMotion 2.4s linear infinite;
+}
+
+/* Dynamic Motion Guide Pulsing */
+@keyframes guideGlowPulse {
+  0%, 100% {
+    opacity: 0.3;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    opacity: 0.95;
+    stroke-dashoffset: -10;
+  }
+}
+.anim-guide-pulse {
+  animation: guideGlowPulse 2.0s linear infinite;
+}

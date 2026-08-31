@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Study-Break Reset — Realistic AI Avatar Coaches</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Modular Stylesheets -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/avatar2d.css">
+  <link rel="stylesheet" href="css/components.css">
+
+  <!-- Firebase Compat Libraries -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+<div class="app">
+  <div class="card">
+
+    <!-- Top Progress Rail -->
+    <div class="rail" id="rail">
+      <div class="seg" data-stage="0"></div>
+      <div class="seg" data-stage="1"></div>
+      <div class="seg" data-stage="2"></div>
+      <div class="seg" data-stage="3"></div>
+    </div>
+
+    <!-- SCREEN 0: WELCOME -->
+    <div id="screen-welcome" class="screen">
+      <p class="eyebrow">A five-minute study break</p>
+      <h1>Your break is ready when you are.</h1>
+      <p>A guided reset with your personal AI coach to decompress your spine, breathe, and restore peak focus — no gym clothes, no leaving your desk.</p>
+
+      <div class="avatar-picker-title" style="margin-bottom:10px;">Select your specialized coach:</div>
+      <div class="coach-grid" id="coach-grid" style="margin-bottom:18px;"></div>
+
+      <input type="text" id="name-input" placeholder="What should I call you?" maxlength="30" />
+
+      <div class="avatar-picker-title" style="margin-top:18px; margin-bottom:10px;">How are you feeling right now?</div>
+      <div class="mood-row" id="mood-before-row"></div>
+
+
+      <button class="btn-primary" id="start-btn" disabled>Start your break</button>
+      <p class="disclosure">This break is guided by an animated AI coach. Your device and check-ins are only used to track your personal streak and improve the session.</p>
+      <div class="demo-banner hidden" id="demo-banner">Local demo mode — this device isn't syncing with others yet. Configure Firebase to track real, cross-device usage.</div>
+    </div>
+
+    <!-- SCREEN 1: BREATHING -->
+    <div id="screen-breathing" class="screen hidden">
+      <div class="top-row">
+        <span class="coach-tag" id="breathing-coach-tag">Coach Maya</span>
+        <button class="mute-toggle" id="mute-btn-1">🔊 Sound on</button>
+      </div>
+      <div class="avatar-stage" id="breathing-avatar-stage">
+        <div class="avatar-halo"></div>
+        <div class="avatar-container" id="breathing-avatar-container"></div>
+        <div class="breath-label" id="breath-label">&nbsp;</div>
+        <div class="waveform" id="waveform-1"><span></span><span></span><span></span><span></span><span></span></div>
+      </div>
+      <div class="caption" id="caption-breathing">Settling in for a moment.</div>
+    </div>
+
+    <!-- SCREEN 2: STRETCHES -->
+    <div id="screen-stretch" class="screen hidden">
+      <div class="top-row">
+        <span class="coach-tag" id="stretch-coach-tag">Coach Maya</span>
+        <button class="mute-toggle" id="mute-btn-2">🔊 Sound on</button>
+      </div>
+      <div class="stretch-illustration-box">
+        <span class="stretch-focus-badge" id="stretch-focus-badge">Focus Area</span>
+        <div class="stretch-figure-box" id="stretch-figure-box" style="width:100%; height:100%; display:flex; align-items:center; justify-content:center;"></div>
+      </div>
+      <div class="caption" id="caption-stretch">Stretch instruction here.</div>
+      <div class="waveform" id="waveform-2"><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="timer-text" id="stretch-timer">25s remaining</div>
+      <div class="progress-dots" id="stretch-dots"></div>
+      <div class="skip-row"><button class="btn-ghost" id="skip-btn">Skip this one</button></div>
+    </div>
+
+    <!-- SCREEN 3: REFLECT -->
+    <div id="screen-reflect" class="screen hidden">
+      <p class="eyebrow">Almost done</p>
+      <h1>How do you feel now?</h1>
+      <div class="mood-row" id="mood-after-row"></div>
+
+      <div style="font-size:0.86rem; color:var(--ink-soft); margin: 6px 0 8px;">Was this break helpful?</div>
+      <div class="thumbs-row" id="thumbs-row">
+        <button class="thumb-btn" data-val="up" title="Helpful">👍</button>
+        <button class="thumb-btn" data-val="down" title="Not helpful">👎</button>
+      </div>
+
+      <textarea id="feedback-text" rows="2" placeholder="Anything you'd tell a friend about this? (optional)" maxlength="200"></textarea>
+      <button class="btn-primary" id="reflect-continue-btn">Finish</button>
+    </div>
+
+    <!-- SCREEN 4: CLOSING -->
+    <div id="screen-closing" class="screen hidden">
+      <div class="avatar-stage">
+        <div class="avatar-halo" style="transform: scale(1.08); opacity: 0.8;"></div>
+        <div class="avatar-container" id="closing-avatar-container"></div>
+      </div>
+      <h1 id="closing-headline" style="text-align:center;">Nice reset.</h1>
+      <p style="text-align:center;" id="closing-sub">Back to it — you'll focus better now.</p>
+
+      <div class="stat-grid">
+        <div class="stat-box">
+          <div class="stat-num" id="stat-streak">1</div>
+          <div class="stat-label">breaks you've taken</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="stat-status">New</div>
+          <div class="stat-label">your status</div>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="share-btn" style="margin-top:14px;">Copy link to share</button>
+      <div class="footer-link"><a href="#" id="restart-link">Take another break</a></div>
+    </div>
+
+    <!-- SCREEN 5: STATS / TRACTION DASHBOARD -->
+    <div id="screen-stats" class="screen hidden">
+      <p class="eyebrow">Study-Break Reset — usage</p>
+      <h1>How it's landing</h1>
+      <div id="stats-loading" class="spinner-text">Loading metrics…</div>
+      <div id="stats-content" class="hidden">
+        <div class="stat-grid">
+          <div class="stat-box"><div class="stat-num" id="s-participants">0</div><div class="stat-label">people who tried it</div></div>
+          <div class="stat-box"><div class="stat-num" id="s-completion">0%</div><div class="stat-label">completed the full break</div></div>
+          <div class="stat-box"><div class="stat-num" id="s-returning">0%</div><div class="stat-label">came back for 2nd+</div></div>
+          <div class="stat-box"><div class="stat-num" id="s-thumbs">0%</div><div class="stat-label">said it was helpful</div></div>
+        </div>
+        <div class="stat-box" style="margin-top:12px;">
+          <div class="stat-num" id="s-mood-delta">+0.0</div>
+          <div class="stat-label">avg. mood change per break (1–5 scale)</div>
+        </div>
+
+        <p style="margin-top:18px; margin-bottom:8px; font-size:0.86rem; color:var(--ink-soft); font-weight:500;">Recent feedback</p>
+        <div class="feedback-list" id="feedback-list"></div>
+
+        <div class="backend-tag" id="backend-tag"></div>
+      </div>
+      <div class="footer-link"><a href="#" id="stats-back-link">Take a break instead</a></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Application Modular Scripts -->
+<script src="js/identity.js"></script>
+<script src="js/config.js"></script>
+<script src="js/db.js"></script>
+<script src="js/speech.js"></script>
+<script src="js/avatar2d.js"></script>
+<script src="js/stretches.js"></script>
+<script src="js/components/rail.js"></script>
+<script src="js/components/mood-picker.js"></script>
+<script src="js/components/stats-view.js"></script>
+<script src="js/screens/welcome.js"></script>
+<script src="js/screens/breathing.js"></script>
+<script src="js/screens/stretch.js"></script>
+<script src="js/screens/reflect.js"></script>
+<script src="js/screens/closing.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>

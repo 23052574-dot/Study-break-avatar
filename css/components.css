@@ -1,0 +1,291 @@
+/* ==========================================================================
+   UI COMPONENTS & SCREEN ELEMENTS
+   ========================================================================== */
+
+/* --- Top Progress Rail --- */
+.rail {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 22px;
+}
+
+.rail .seg {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--line);
+  transition: background 0.3s ease;
+}
+
+.rail .seg.done {
+  background: var(--moss);
+}
+
+.rail .seg.active {
+  background: var(--ochre);
+}
+
+/* --- Top Controls Row (Mute / Sound) --- */
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.coach-tag {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--moss);
+  background: rgba(92, 122, 78, 0.12);
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.mute-toggle {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.mute-toggle:hover {
+  background: var(--sage);
+  border-color: var(--moss-light);
+}
+
+/* --- Voice Waveform Indicator --- */
+.waveform {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 22px;
+  margin-top: 12px;
+}
+
+.waveform span {
+  width: 3.5px;
+  border-radius: 2px;
+  background: var(--moss);
+  height: 6px;
+  opacity: 0.45;
+  transition: height 0.15s ease, opacity 0.15s ease;
+}
+
+.waveform.speaking span {
+  opacity: 0.95;
+  animation: wave 0.85s ease-in-out infinite;
+}
+
+.waveform span:nth-child(1) { animation-delay: 0s; }
+.waveform span:nth-child(2) { animation-delay: 0.1s; }
+.waveform span:nth-child(3) { animation-delay: 0.2s; }
+.waveform span:nth-child(4) { animation-delay: 0.3s; }
+.waveform span:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes wave {
+  0%, 100% { height: 6px; }
+  50% { height: 20px; }
+}
+
+/* --- Dynamic Captions & Guidance Text --- */
+.caption {
+  text-align: center;
+  font-family: 'Spectral', serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--ink);
+  line-height: 1.45;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  margin-top: 6px;
+}
+
+.breath-label {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--moss);
+  font-weight: 600;
+  margin-top: 8px;
+  height: 20px;
+  letter-spacing: 0.02em;
+}
+
+/* --- Stretch Exercise Screen Elements --- */
+.timer-text {
+  text-align: center;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--ochre-deep);
+  margin-bottom: 6px;
+}
+
+.progress-dots {
+  display: flex;
+  gap: 7px;
+  justify-content: center;
+  margin: 12px 0 6px;
+}
+
+.progress-dots .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--line);
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.progress-dots .dot.active {
+  background: var(--ochre);
+  transform: scale(1.25);
+}
+
+.progress-dots .dot.done {
+  background: var(--moss-light);
+}
+
+.skip-row {
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* --- Mood Rating Row --- */
+.mood-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.mood-btn {
+  flex: 1;
+  background: #fff;
+  border: 1.5px solid var(--line);
+  border-radius: 14px;
+  padding: 10px 0 8px;
+  font-size: 1.5rem;
+  line-height: 1;
+  transition: border-color 0.15s ease, transform 0.1s ease, background 0.15s ease;
+}
+
+.mood-btn:hover {
+  border-color: var(--moss-light);
+}
+
+.mood-btn:active {
+  transform: scale(0.95);
+}
+
+.mood-btn.selected {
+  border-color: var(--moss);
+  background: #EEF3E8;
+  box-shadow: 0 2px 6px rgba(92, 122, 78, 0.2);
+}
+
+/* --- Thumbs Rating Row --- */
+.thumbs-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.thumb-btn {
+  flex: 1;
+  background: #fff;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  padding: 12px 0;
+  font-size: 1.3rem;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+}
+
+.thumb-btn:hover {
+  border-color: var(--moss-light);
+}
+
+.thumb-btn.selected {
+  border-color: var(--moss);
+  background: #EEF3E8;
+  box-shadow: 0 2px 6px rgba(92, 122, 78, 0.15);
+}
+
+/* --- Stats & Metrics Dashboard --- */
+.stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 16px 0 8px;
+}
+
+.stat-box {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px 12px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(41, 51, 35, 0.04);
+}
+
+.stat-num {
+  font-family: 'Spectral', serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--moss);
+}
+
+.stat-label {
+  font-size: 0.76rem;
+  color: var(--ink-soft);
+  margin-top: 3px;
+}
+
+.feedback-list {
+  margin-top: 8px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.feedback-item {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+  font-family: 'Spectral', serif;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.feedback-item .who {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-style: normal;
+  font-size: 0.74rem;
+  color: var(--moss);
+  font-weight: 500;
+  margin-top: 4px;
+  display: block;
+}
+
+.backend-tag {
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  margin-top: 18px;
+}
+
+.spinner-text {
+  text-align: center;
+  color: var(--ink-soft);
+  padding: 24px 0;
+  font-size: 0.92rem;
+}

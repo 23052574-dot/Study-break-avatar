@@ -1,0 +1,189 @@
+/* ==========================================================================
+   3D REALISTIC AVATAR & KINETIC CANVAS STYLES
+   ========================================================================== */
+
+.avatar-3d-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 0 16px;
+  position: relative;
+}
+
+.avatar-3d-glow {
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(92, 122, 78, 0.28) 0%, rgba(233, 237, 226, 0.05) 70%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+  transition: transform 3.6s cubic-bezier(0.4, 0, 0.2, 1), background 0.8s ease, opacity 0.8s ease;
+}
+
+.avatar-3d-stage.inhale .avatar-3d-glow {
+  transform: scale(1.3);
+  opacity: 0.9;
+}
+
+.avatar-3d-stage.exhale .avatar-3d-glow {
+  transform: scale(0.95);
+  opacity: 0.4;
+}
+
+.avatar-3d-canvas-wrap {
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  position: relative;
+  background: linear-gradient(135deg, #F5F7F1, #DEE4D6);
+  border: 3px solid rgba(92, 122, 78, 0.35);
+  box-shadow: 0 12px 32px rgba(41, 51, 35, 0.14), inset 0 2px 8px rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+  z-index: 1;
+  transition: border-color 0.4s ease, transform 3.6s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s ease;
+}
+
+.avatar-3d-canvas-wrap canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+  cursor: grab;
+}
+
+.avatar-3d-canvas-wrap.small {
+  width: 64px;
+  height: 64px;
+  border-width: 2px;
+  box-shadow: 0 4px 12px rgba(41, 51, 35, 0.08);
+}
+
+.avatar-3d-stage.inhale .avatar-3d-canvas-wrap {
+  transform: scale(1.05) translateY(-2px);
+  border-color: var(--moss);
+  box-shadow: 0 16px 36px rgba(92, 122, 78, 0.25);
+}
+
+.avatar-3d-stage.hold .avatar-3d-canvas-wrap {
+  transform: scale(1.05) translateY(-2px);
+  border-color: var(--ochre);
+  box-shadow: 0 16px 36px rgba(169, 112, 46, 0.25);
+}
+
+.avatar-3d-stage.exhale .avatar-3d-canvas-wrap {
+  transform: scale(0.97) translateY(1px);
+  border-color: rgba(92, 122, 78, 0.25);
+  box-shadow: 0 8px 20px rgba(41, 51, 35, 0.1);
+}
+
+/* --- Coach Selector Cards --- */
+.coach-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.coach-card {
+  background: #fff;
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  padding: 12px 6px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.coach-card:hover {
+  border-color: var(--moss-light);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(41, 51, 35, 0.08);
+}
+
+.coach-card.selected {
+  border-color: var(--moss);
+  background: #EEF3E8;
+  box-shadow: 0 4px 14px rgba(92, 122, 78, 0.22);
+}
+
+.coach-badge {
+  font-size: 0.64rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 2px 6px;
+  border-radius: 8px;
+  background: rgba(92, 122, 78, 0.12);
+  color: var(--moss);
+}
+
+.coach-name {
+  font-size: 0.94rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.coach-role-desc {
+  font-size: 0.68rem;
+  color: var(--ink-soft);
+  text-align: center;
+  line-height: 1.25;
+  padding: 0 2px;
+}
+
+.coach-detail-preview {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+  line-height: 1.45;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.coach-detail-preview .bullet {
+  color: var(--moss);
+  font-size: 1.2rem;
+  line-height: 0;
+}
+
+/* --- 3D Stretch Demonstration Stage --- */
+.stretch-3d-container {
+  width: 100%;
+  height: 160px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+  margin: 4px 0 14px;
+  box-shadow: 0 3px 12px rgba(41, 51, 35, 0.05);
+}
+
+.stretch-3d-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+.stretch-focus-badge {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--moss);
+  background: rgba(233, 237, 226, 0.85);
+  padding: 3px 8px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+}
